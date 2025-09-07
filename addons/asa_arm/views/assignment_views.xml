@@ -1,0 +1,51 @@
+<!-- asa_arm/views/assignment_views.xml -->
+<odoo>
+    <!-- ИЗМЕНЕНО: <tree> -> <list> -->
+    <record id="view_work_assignment_list" model="ir.ui.view"> 
+        <field name="name">work.assignment.list</field> <!-- ИЗМЕНЕНО: имя -->
+        <field name="model">work.assignment</field>
+        <field name="arch" type="xml">
+            <!-- ИЗМЕНЕНО: <tree> -> <list> -->
+            <list decoration-warning="status == 'in_progress'" decoration-danger="status == 'defect'">
+                <field name="name"/>
+                <field name="status"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+                <button name="action_take_to_work" type="object" string="Взять в работу" 
+                        invisible="status != 'ready'" class="btn-primary"/>
+                <button name="action_mark_done" type="object" string="ГОТОВО" 
+                        invisible="status != 'in_progress'" class="btn-success"/>
+                <button name="action_mark_defect" type="object" string="БРАК" 
+                        invisible="status != 'in_progress'" class="btn-danger"/>
+            </list> <!-- ИЗМЕНЕНО: </tree> -> </list> -->
+        </field>
+    </record>
+
+    <record id="view_work_assignment_form" model="ir.ui.view">
+        <field name="name">work.assignment.form</field>
+        <field name="model">work.assignment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="status"/>
+                        <field name="start_time"/>
+                        <field name="end_time"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_work_assignment" model="ir.actions.act_window">
+        <field name="name">Задания</field>
+        <field name="res_model">work.assignment</field>
+        <!-- ИЗМЕНЕНО: tree -> list -->
+        <field name="view_mode">list,form</field> 
+    </record>
+
+    <menuitem id="menu_work_assignment_root" name="АРМ Оператора"/>
+    <menuitem id="menu_work_assignment_list" name="Задания" parent="menu_work_assignment_root" action="action_work_assignment"/>
+</odoo>
